@@ -1,4 +1,3 @@
-import { AvailableTickets } from './AvailableTickets';
 import { ReactElement } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
