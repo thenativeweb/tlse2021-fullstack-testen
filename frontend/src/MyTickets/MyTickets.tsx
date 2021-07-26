@@ -8,7 +8,7 @@ interface MyTicketsProps {
 
 const MyTickets: FunctionComponent<MyTicketsProps> = ({ tickets }): ReactElement => (
   <Card style={{ width: '18rem' }}>
-    <Card.Header>Featured</Card.Header>
+    <Card.Header>Meine Tickets</Card.Header>
     <ListGroup variant='flush' aria-label='Meine Tickets'>
       <ListGroup.Item>Vorne: { tickets.front }</ListGroup.Item>
       <ListGroup.Item>Mitte: { tickets.center }</ListGroup.Item>

@@ -27,5 +27,7 @@ describe('MyTicketsContainer', (): void => {
     resolvableResponse.resolve();
 
     await waitForElementToBeRemoved((): HTMLElement[] => screen.queryAllByRole('status'));
+
+    assert.that(screen.getByLabelText('Meine Tickets')).is.not.null();
   });
 });
