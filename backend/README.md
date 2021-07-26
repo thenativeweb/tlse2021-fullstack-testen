@@ -1,4 +1,4 @@
-# webinar-full-stack-testing
+# ticketeer
 
 The code repo for the full stack testing webinar.
 

@@ -14,7 +14,7 @@ services:
       MONGODB_REPLICA_SET_NAME: rs0
       MONGODB_REPLICA_SET_KEY: secret
 
-  webinar:
+  ticketeer:
     build: .
     init: true
     ports:

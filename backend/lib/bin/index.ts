@@ -12,15 +12,15 @@ const logger = flaschenpost.getLogger();
 (async (): Promise<void> => {
   const mongoDbConnectionString = processenv(
     'MONGODB_CONNECTION_STRING',
-    'mongodb://webinar:webinar@mongodb:27017/webinar'
+    'mongodb://ticketeer:ticketeer@mongodb:27017/ticketeer'
   ) as string;
   const mongoDbCollectionName = processenv(
     'MONGODB_COLLECTION_NAME',
-    'webinar'
+    'ticketeer'
   ) as string;
   const port = processenv(
-      'PORT',
-      80
+    'PORT',
+    80
   ) as number;
 
   const database = await Database.create({
@@ -31,6 +31,6 @@ const logger = flaschenpost.getLogger();
   const server = http.createServer(api);
 
   server.listen(port, (): void => {
-    logger.info('The server is running.');
+    logger.info('Ticketeer has started.');
   });
 })();

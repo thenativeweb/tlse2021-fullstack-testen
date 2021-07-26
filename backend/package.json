@@ -1,5 +1,5 @@
 {
-  "name": "webinar-full-stack-testing",
+  "name": "ticketeer",
   "version": "1.0.0",
   "description": "",
   "bin": "build/bin/index.js",
@@ -27,5 +27,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": ""
+  "author": "",
+  "license": "MIT"
 }
