@@ -1,0 +1,15 @@
+{
+  "root": true,
+  "extends": [
+    "es/browser"
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  },
+  "globals": {
+    "cy": "readonly"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "getAvailableTickets": {
+    "front": 222,
+    "center": 102,
+    "back": 0
+  },
+  "buyTickets": {},
+  "getMyTickets": {
+    "front": 0,
+    "center": 2,
+    "back": 3
+  }
+}
