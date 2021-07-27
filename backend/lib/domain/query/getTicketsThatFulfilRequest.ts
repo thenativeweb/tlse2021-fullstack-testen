@@ -3,21 +3,21 @@ import { TicketCountsPerArea } from '../types/TicketCountsPerArea';
 import { error, Result, value } from 'defekt';
 import * as errors from '../../errors';
 
-const getBookableTickets = function ({
+const getTicketsThatFulfilRequest = function ({
   availableTickets,
   requestedTicketCountsPerArea
 }: {
   availableTickets: Ticket[];
   requestedTicketCountsPerArea: TicketCountsPerArea;
-}): Result<Ticket[], errors.NotEnoughBookableTicketsAvailable> {
-  const bookableTickets = [];
+}): Result<Ticket[], errors.CannotFulfilBuyRequest> {
+  const ticketsThatFulfilRequest = [];
   const outstandingTicketCountsPerArea = {
     ...requestedTicketCountsPerArea
   };
 
   for (const ticket of availableTickets) {
     if (outstandingTicketCountsPerArea[ticket.area] > 0) {
-      bookableTickets.push(ticket);
+      ticketsThatFulfilRequest.push(ticket);
       outstandingTicketCountsPerArea[ticket.area] -= 1;
     }
   }
@@ -27,12 +27,12 @@ const getBookableTickets = function ({
       values(outstandingTicketCountsPerArea).
       some((count): boolean => count !== 0)
   ) {
-    return error(new errors.NotEnoughBookableTicketsAvailable());
+    return error(new errors.CannotFulfilBuyRequest());
   }
 
-  return value(bookableTickets);
+  return value(ticketsThatFulfilRequest);
 };
 
 export {
-  getBookableTickets
+  getTicketsThatFulfilRequest
 };

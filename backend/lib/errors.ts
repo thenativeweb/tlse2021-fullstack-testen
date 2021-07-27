@@ -1,13 +1,13 @@
 import { defekt } from 'defekt';
 
+class CannotFulfilBuyRequest extends defekt({ code: 'CannotFulfilBuyRequest' }) {}
 class InternalServerError extends defekt({ code: 'InternalServerError' }) {}
-class NotEnoughBookableTicketsAvailable extends defekt({ code: 'NotEnoughBookableTicketsAvailable' }) {}
-class TicketNotBookable extends defekt({ code: 'TicketNotBookable' }) {}
 class TicketIdAlreadyExists extends defekt({ code: 'TicketIdAlreadyExists' }) {}
+class TicketNotAvailable extends defekt({ code: 'TicketNotAvailable' }) {}
 
 export {
+  CannotFulfilBuyRequest,
   InternalServerError,
-  NotEnoughBookableTicketsAvailable,
-  TicketNotBookable,
-  TicketIdAlreadyExists
+  TicketIdAlreadyExists,
+  TicketNotAvailable
 };

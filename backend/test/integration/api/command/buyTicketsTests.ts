@@ -8,7 +8,7 @@ import { getApi } from '../../../../lib/api/getApi';
 import { runApiAsServer } from '../../../shared/runApiAsServer';
 import { Ticket } from '../../../../lib/domain/types/Ticket';
 
-suite('bookTickets', (): void => {
+suite('buyTickets', (): void => {
   let api: Express.Application,
       database: Database;
 
@@ -25,7 +25,7 @@ suite('bookTickets', (): void => {
 
     const response = await client({
       method: 'POST',
-      url: '/command/bookTickets',
+      url: '/command/buyTickets',
       data: { foo: 'bar' },
       validateStatus (): boolean {
         return true;
@@ -35,14 +35,14 @@ suite('bookTickets', (): void => {
     assert.that(response.status).is.equalTo(400);
   });
 
-  test('returns status 409 if not enough tickets are available to fulfil the booking.', async (): Promise<void> => {
+  test('returns status 409 if not enough tickets are available to fulfil the buy request.', async (): Promise<void> => {
     const { client } = await runApiAsServer({ api });
 
     const userName = 'foobar';
 
     const response = await client({
       method: 'POST',
-      url: '/command/bookTickets',
+      url: '/command/buyTickets',
       data: {
         userName,
         requestedTicketCountsPerArea: {
@@ -75,7 +75,7 @@ suite('bookTickets', (): void => {
 
     const response = await client({
       method: 'POST',
-      url: '/command/bookTickets',
+      url: '/command/buyTickets',
       data: {
         userName,
         requestedTicketCountsPerArea: {

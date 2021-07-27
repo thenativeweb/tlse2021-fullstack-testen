@@ -1,14 +1,14 @@
 import { Database } from '../../storage/Database';
 import express from 'express';
 import { getAvailableTickets } from '../../domain/query/getAvailableTickets';
-import { getBookableTickets } from '../../domain/query/getBookableTickets';
+import { getTicketsThatFulfilRequest } from '../../domain/query/getTicketsThatFulfilRequest';
 import { isCustomError } from 'defekt';
 import { getTicketCountsPerAreaSchema, TicketCountsPerArea } from '../../domain/types/TicketCountsPerArea';
 import { JsonSchema, ParseError, Parser } from 'validate-value';
 import * as errors from '../../errors';
 
-const bookTicketsRoute = {
-  path: 'bookTickets',
+const buyTicketsRoute = {
+  path: 'buyTickets',
   request: {
     body: {
       type: 'object',
@@ -26,7 +26,7 @@ const bookTicketsRoute = {
     const requestBodyParser = new Parser<{
       userName: string;
       requestedTicketCountsPerArea: TicketCountsPerArea;
-    }>(bookTicketsRoute.request.body);
+    }>(buyTicketsRoute.request.body);
 
     return async (req, res): Promise<void> => {
       try {
@@ -41,23 +41,23 @@ const bookTicketsRoute = {
         const tickets = await database.getTickets();
         const availableTickets = getAvailableTickets({ tickets });
 
-        const bookableTicketsResult = getBookableTickets({ availableTickets, requestedTicketCountsPerArea });
+        const ticketsThatFulfilRequestResult = getTicketsThatFulfilRequest({ availableTickets, requestedTicketCountsPerArea });
 
-        if (bookableTicketsResult.hasError()) {
-          throw bookableTicketsResult.error;
+        if (ticketsThatFulfilRequestResult.hasError()) {
+          throw ticketsThatFulfilRequestResult.error;
         }
 
-        (await database.markTicketsBooked({
+        (await database.markTicketsOwned({
           owner: userName,
-          tickets: bookableTicketsResult.value
+          tickets: ticketsThatFulfilRequestResult.value
         })).unwrapOrThrow();
         res.status(200).send();
       } catch (ex: unknown) {
         const error = isCustomError(ex) ? ex : new errors.InternalServerError({ cause: ex });
 
         switch (error.code) {
-          case errors.NotEnoughBookableTicketsAvailable.code:
-          case errors.TicketNotBookable.code: {
+          case errors.CannotFulfilBuyRequest.code:
+          case errors.TicketNotAvailable.code: {
             res.status(409).json(error);
 
             break;
@@ -77,5 +77,5 @@ const bookTicketsRoute = {
 };
 
 export {
-  bookTicketsRoute
+  buyTicketsRoute
 };

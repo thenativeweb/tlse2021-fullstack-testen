@@ -95,10 +95,10 @@ class Database {
     }
   }
 
-  public async markTicketsBooked ({ owner, tickets }: {
+  public async markTicketsOwned ({ owner, tickets }: {
     owner: string;
     tickets: Ticket[];
-  }): Promise<Result<undefined, errors.TicketNotBookable>> {
+  }): Promise<Result<undefined, errors.TicketNotAvailable>> {
     try {
       await withTransaction({
         client: this.client,
@@ -123,13 +123,13 @@ class Database {
             );
 
             if (result.matchedCount !== 1) {
-              throw new errors.TicketNotBookable();
+              throw new errors.TicketNotAvailable();
             }
           }
         }
       });
     } catch (ex: unknown) {
-      if (isCustomError(ex, errors.TicketNotBookable)) {
+      if (isCustomError(ex, errors.TicketNotAvailable)) {
         return error(ex);
       }
 

@@ -49,16 +49,16 @@ suite('Database', (): void => {
     });
   });
 
-  suite('markTicketsBooked', (): void => {
+  suite('markTicketsOwned', (): void => {
     test('fails if one of the requested tickets does not exist.', async (): Promise<void> => {
-      const markTicketsBookedResult = await database.markTicketsBooked({
+      const markTicketsOwnedResult = await database.markTicketsOwned({
         owner: 'foobar',
         tickets: [
           { id: crypto.randomUUID(), area: Area.front, isAvailable: true }
         ]
       });
 
-      assert.that(markTicketsBookedResult).is.anErrorWithMessage('Ticket not bookable.');
+      assert.that(markTicketsOwnedResult).is.anErrorWithMessage('Ticket not available.');
     });
 
     test('fails if one of the tickets is not available.', async (): Promise<void> => {
@@ -68,17 +68,17 @@ suite('Database', (): void => {
 
       (await database.addTicket({ ticket: tickets[0] })).unwrapOrThrow();
 
-      const markTicketsBookedResult = await database.markTicketsBooked({
+      const markTicketsOwnedResult = await database.markTicketsOwned({
         owner: 'foobar',
         tickets: [
           tickets[0]
         ]
       });
 
-      assert.that(markTicketsBookedResult).is.anErrorWithMessage('Ticket not bookable.');
+      assert.that(markTicketsOwnedResult).is.anErrorWithMessage('Ticket not available.');
     });
 
-    test('marks all tickets booked and sets their owner.', async (): Promise<void> => {
+    test('marks all tickets owned and sets their owner.', async (): Promise<void> => {
       const tickets: Ticket[] = [
         { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
         { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
@@ -95,7 +95,7 @@ suite('Database', (): void => {
         (await database.addTicket({ ticket })).unwrapOrThrow();
       }
 
-      const markTicketsBookedResult = await database.markTicketsBooked({
+      const markTicketsOwnedResult = await database.markTicketsOwned({
         owner: 'foobar',
         tickets: [
           tickets[0],
@@ -104,7 +104,7 @@ suite('Database', (): void => {
         ]
       });
 
-      assert.that(markTicketsBookedResult).is.aValue();
+      assert.that(markTicketsOwnedResult).is.aValue();
 
       const updatedTickets = await database.getTickets();
 

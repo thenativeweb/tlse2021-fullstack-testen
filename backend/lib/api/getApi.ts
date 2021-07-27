@@ -1,4 +1,4 @@
-import { bookTicketsRoute } from './command/bookTickets';
+import { buyTicketsRoute } from './command/buyTickets';
 import cors from 'cors';
 import { Database } from '../storage/Database';
 import express from 'express';
@@ -18,8 +18,8 @@ const getApi = function ({ database }: {
   );
 
   app.post(
-    `/command/${bookTicketsRoute.path}`,
-    bookTicketsRoute.getHandler({ database })
+    `/command/${buyTicketsRoute.path}`,
+    buyTicketsRoute.getHandler({ database })
   );
 
   return app;
