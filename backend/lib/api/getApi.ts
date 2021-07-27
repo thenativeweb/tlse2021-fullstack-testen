@@ -3,6 +3,7 @@ import cors from 'cors';
 import { Database } from '../storage/Database';
 import express from 'express';
 import { getAvailableTicketsRoute } from './query/getAvailableTickets';
+import { getMyTicketsRoute } from './query/getMyTickets';
 
 const getApi = function ({ database }: {
   database: Database;
@@ -15,6 +16,10 @@ const getApi = function ({ database }: {
   app.get(
     `/query/${getAvailableTicketsRoute.path}`,
     getAvailableTicketsRoute.getHandler({ database })
+  );
+  app.get(
+    `/query/${getMyTicketsRoute.path}`,
+    getMyTicketsRoute.getHandler({ database })
   );
 
   app.post(
