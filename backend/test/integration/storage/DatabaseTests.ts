@@ -25,11 +25,7 @@ suite('Database', (): void => {
 
   suite('addTicket', (): void => {
     test('adds a ticket to the database.', async (): Promise<void> => {
-      const ticket: Ticket = {
-        id: crypto.randomUUID(),
-        area: Area.center,
-        isAvailable: true
-      };
+      const ticket: Ticket = { id: crypto.randomUUID(), area: Area.center, isAvailable: true };
 
       const addTicketResult = await database.addTicket({ ticket });
 
@@ -43,17 +39,80 @@ suite('Database', (): void => {
     });
 
     test('fails if a ticket id is already in use.', async (): Promise<void> => {
-      const ticket: Ticket = {
-        id: crypto.randomUUID(),
-        area: Area.center,
-        isAvailable: true
-      };
+      const ticket: Ticket = { id: crypto.randomUUID(), area: Area.center, isAvailable: true };
 
       await database.addTicket({ ticket });
 
       const addTicketResult = await database.addTicket({ ticket });
 
       assert.that(addTicketResult).is.anErrorWithMessage('Ticket id already exists.');
+    });
+  });
+
+  suite('markTicketsBooked', (): void => {
+    test('fails if one of the requested tickets does not exist.', async (): Promise<void> => {
+      const markTicketsBookedResult = await database.markTicketsBooked({
+        owner: 'foobar',
+        tickets: [
+          { id: crypto.randomUUID(), area: Area.front, isAvailable: true }
+        ]
+      });
+
+      assert.that(markTicketsBookedResult).is.anErrorWithMessage('Ticket not bookable.');
+    });
+
+    test('fails if one of the tickets is not available.', async (): Promise<void> => {
+      const tickets: Ticket[] = [
+        { id: crypto.randomUUID(), area: Area.front, isAvailable: false, owner: 'notme' }
+      ];
+
+      (await database.addTicket({ ticket: tickets[0] })).unwrapOrThrow();
+
+      const markTicketsBookedResult = await database.markTicketsBooked({
+        owner: 'foobar',
+        tickets: [
+          tickets[0]
+        ]
+      });
+
+      assert.that(markTicketsBookedResult).is.anErrorWithMessage('Ticket not bookable.');
+    });
+
+    test('marks all tickets booked and sets their owner.', async (): Promise<void> => {
+      const tickets: Ticket[] = [
+        { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
+        { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
+        { id: crypto.randomUUID(), area: Area.back, isAvailable: false },
+        { id: crypto.randomUUID(), area: Area.center, isAvailable: true },
+        { id: crypto.randomUUID(), area: Area.center, isAvailable: false },
+        { id: crypto.randomUUID(), area: Area.center, isAvailable: false },
+        { id: crypto.randomUUID(), area: Area.front, isAvailable: true },
+        { id: crypto.randomUUID(), area: Area.front, isAvailable: true },
+        { id: crypto.randomUUID(), area: Area.front, isAvailable: true }
+      ];
+
+      for (const ticket of tickets) {
+        (await database.addTicket({ ticket })).unwrapOrThrow();
+      }
+
+      const markTicketsBookedResult = await database.markTicketsBooked({
+        owner: 'foobar',
+        tickets: [
+          tickets[0],
+          tickets[1],
+          tickets[3]
+        ]
+      });
+
+      assert.that(markTicketsBookedResult).is.aValue();
+
+      const updatedTickets = await database.getTickets();
+
+      assert.that(updatedTickets).is.containingAllOf([
+        { ...tickets[0], isAvailable: false, owner: 'foobar' },
+        { ...tickets[1], isAvailable: false, owner: 'foobar' },
+        { ...tickets[3], isAvailable: false, owner: 'foobar' }
+      ]);
     });
   });
 });

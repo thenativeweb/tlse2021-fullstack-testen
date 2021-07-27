@@ -1,8 +1,9 @@
 import { retry } from 'retry-ignore-abort';
 import { Ticket } from '../domain/types/Ticket';
 import { URL } from 'url';
+import { withTransaction } from './withTransaction';
 import { Collection, Db, MongoClient } from 'mongodb';
-import { error, Result, value } from 'defekt';
+import { error, isCustomError, Result, value } from 'defekt';
 import * as errors from '../errors';
 
 class Database {
@@ -92,6 +93,50 @@ class Database {
     } catch {
       return error(new errors.TicketIdAlreadyExists());
     }
+  }
+
+  public async markTicketsBooked ({ owner, tickets }: {
+    owner: string;
+    tickets: Ticket[];
+  }): Promise<Result<undefined, errors.TicketNotBookable>> {
+    try {
+      await withTransaction({
+        client: this.client,
+        fn: async ({ session }): Promise<void> => {
+          for (const ticket of tickets) {
+            const result = await this.collection.updateOne(
+              {
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                _id: ticket.id,
+                isAvailable: true
+              },
+              {
+                $set: {
+                  isAvailable: false,
+                  owner
+                }
+              },
+              {
+                upsert: false,
+                session
+              }
+            );
+
+            if (result.matchedCount !== 1) {
+              throw new errors.TicketNotBookable();
+            }
+          }
+        }
+      });
+    } catch (ex: unknown) {
+      if (isCustomError(ex, errors.TicketNotBookable)) {
+        return error(ex);
+      }
+
+      throw ex;
+    }
+
+    return value();
   }
 }
 

@@ -3,9 +3,9 @@ import { Database } from '../../storage/Database';
 import express from 'express';
 import { getAvailableTickets } from '../../domain/query/getAvailableTickets';
 import { getTicketCountsPerAreaSchema } from '../../domain/types/TicketCountsPerArea';
-import { InternalServerError } from '../../errors';
 import { isCustomError } from 'defekt';
 import { Parser } from 'validate-value';
+import * as errors from '../../errors';
 
 const getAvailableTicketsRoute = {
   path: 'getAvailableTickets',
@@ -24,14 +24,14 @@ const getAvailableTicketsRoute = {
         const availableTicketCounts = countTicketsPerArea({ tickets: availableTickets });
 
         if (!responseBodyParser.isValid(availableTicketCounts)) {
-          throw new InternalServerError({
+          throw new errors.InternalServerError({
             message: 'Failed to validate output data.'
           });
         }
 
         res.json(availableTicketCounts);
       } catch (ex: unknown) {
-        const error = isCustomError(ex) ? ex : new InternalServerError({ cause: ex });
+        const error = isCustomError(ex) ? ex : new errors.InternalServerError({ cause: ex });
 
         switch (error.code) {
           default: {
