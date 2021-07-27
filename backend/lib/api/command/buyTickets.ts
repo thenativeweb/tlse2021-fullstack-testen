@@ -56,14 +56,14 @@ const buyTicketsRoute = {
         const error = isCustomError(ex) ? ex : new errors.InternalServerError({ cause: ex });
 
         switch (error.code) {
-          case errors.CannotFulfilBuyRequest.code:
-          case errors.TicketNotAvailable.code: {
-            res.status(409).json(error);
+          case ParseError.code: {
+            res.status(400).json(error);
 
             break;
           }
-          case ParseError.code: {
-            res.status(400).json(error);
+          case errors.CannotFulfilBuyRequest.code:
+          case errors.TicketNotAvailable.code: {
+            res.status(409).json(error);
 
             break;
           }
