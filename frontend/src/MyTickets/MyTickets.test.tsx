@@ -5,11 +5,7 @@ import { render, screen } from '@testing-library/react';
 
 describe('MyTickets', (): void => {
   it('shows the number of tickets for the back.', async (): Promise<void> => {
-    const tickets: TicketCount = {
-      back: 2,
-      center: 0,
-      front: 0
-    };
+    const tickets: TicketCount = { back: 2, center: 0, front: 0 };
 
     render(<MyTickets tickets={ tickets } />);
 
@@ -17,11 +13,7 @@ describe('MyTickets', (): void => {
   });
 
   it('shows the number of tickets for all positions.', async (): Promise<void> => {
-    const tickets: TicketCount = {
-      back: 1,
-      center: 2,
-      front: 3
-    };
+    const tickets: TicketCount = { back: 1, center: 2, front: 3 };
 
     render(<MyTickets tickets={ tickets } />);
 
@@ -31,11 +23,7 @@ describe('MyTickets', (): void => {
   });
 
   it('has an aria label to present the ticket list.', async (): Promise<void> => {
-    const tickets: TicketCount = {
-      back: 1,
-      center: 2,
-      front: 3
-    };
+    const tickets: TicketCount = { back: 1, center: 2, front: 3 };
 
     render(<MyTickets tickets={ tickets } />);
 

@@ -1,7 +1,7 @@
 import { ApiContext } from '../api/TicketsApiContext';
 import { MyTickets } from './MyTickets';
-import { Spinner } from 'react-bootstrap';
 import { TicketCount } from '../types/TicketCount';
+import { Alert, Spinner } from 'react-bootstrap';
 import { FunctionComponent, ReactElement, useContext, useEffect, useState } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -17,8 +17,9 @@ const MyTicketsContainer: FunctionComponent<MyTicketsContainerProps> = (): React
       then((loadedTickets): void => {
         setTickets(loadedTickets);
         setIsLoading(false);
+      }).
       // eslint-disable-next-line no-console
-      }).catch((ex): void => console.error('Error while loading Tickets.', ex));
+      catch((ex): void => console.error('Error while loading Tickets.', ex));
   }, []);
 
   if (isLoading) {
@@ -30,7 +31,11 @@ const MyTicketsContainer: FunctionComponent<MyTicketsContainerProps> = (): React
   }
 
   if (!tickets) {
-    throw new Error('Not implemented.');
+    return (
+      <Alert variant='alert'>
+        Fehler beim Abfragen ihrer Daten. Bitte versuchen sie es später erneut.
+      </Alert>
+    );
   }
 
   return (<MyTickets tickets={ tickets } />);
