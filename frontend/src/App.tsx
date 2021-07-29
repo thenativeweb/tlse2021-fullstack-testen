@@ -1,6 +1,7 @@
+import { BuyTicketsContainer } from './BuyTickets/BuyTicketsContainer';
+import { MyTicketsContainer } from './MyTickets/MyTicketsContainer';
 import { ReactElement } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { MyTicketsContainer } from './MyTickets/MyTicketsContainer';
 
 const App = (): ReactElement => (
   <Container>
@@ -20,6 +21,7 @@ const App = (): ReactElement => (
     <Row>
       <Col>
         <h2>Verfügbare Tickets:</h2>
+        <BuyTicketsContainer />
       </Col>
     </Row>
   </Container>
