@@ -1,0 +1,5 @@
+{
+  "/query/*": "/$1",
+  "/command/*": "/$1",
+  "/:resource/:id": "/:resource"
+}

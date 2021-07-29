@@ -4,7 +4,7 @@
   "scripts": {
     "start": "concurrently \"npm:start:frontend\" \"npm:start:backend\"",
     "start:frontend": "webpack serve",
-    "start:backend": "json-server --watch backendMockData.json",
+    "start:backend": "json-server --routes backendRoutes.json --watch backendMockData.json",
     "test": "mocha 'src/**/*.test.{ts,tsx}' --exit",
     "test:watch": "mocha 'src/**/*.test.{ts,tsx}' --watch",
     "cypress:open": "cypress open",
