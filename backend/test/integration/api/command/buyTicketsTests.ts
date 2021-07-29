@@ -1,6 +1,7 @@
 import { Area } from '../../../../lib/domain/types/Area';
 import { assert } from 'assertthat';
 import { connectionOptions } from '../../../shared/containers/connectionOptions';
+import { createTicket } from '../../../shared/fixtures/createTicket';
 import { Database } from '../../../../lib/storage/Database';
 import Express from 'express';
 import { getApi } from '../../../../lib/api/getApi';
@@ -63,8 +64,8 @@ suite('buyTickets', (): void => {
     const { client } = await runApiAsServer({ api });
 
     const tickets: Ticket[] = [
-      { id: v4(), area: Area.front, isAvailable: true },
-      { id: v4(), area: Area.front, isAvailable: true }
+      createTicket({ id: v4(), area: Area.front, isAvailable: true }),
+      createTicket({ id: v4(), area: Area.front, isAvailable: true })
     ];
 
     for (const ticket of tickets) {
