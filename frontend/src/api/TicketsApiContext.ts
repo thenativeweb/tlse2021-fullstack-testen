@@ -2,7 +2,10 @@ import { createFetchTicketsApi } from './FetchTicketsApi';
 
 import React from 'react';
 
-const fetchContext = createFetchTicketsApi('http://localhost:3000');
+// eslint-disable-next-line no-process-env
+const backendUrl = `http://${process.env.BACKEND_HOSTNAME ?? 'localhost'}:${process.env.BACKEND_PORT ?? '3000'}`;
+
+const fetchContext = createFetchTicketsApi(backendUrl);
 
 const ApiContext = React.createContext(fetchContext);
 

@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  mongodb:
+    image: bitnami/mongodb:4.4.6
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_ROOT_PASSWORD: ticketeer
+      MONGODB_USERNAME: ticketeer
+      MONGODB_PASSWORD: ticketeer
+      MONGODB_DATABASE: ticketeer
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_REPLICA_SET_NAME: rs0
+      MONGODB_REPLICA_SET_KEY: secret
+
+  ticketeer-backend:
+    build: ./backend
+    init: true
+    ports:
+      - 8081:8081
+    environment:
+      PORT: 8081
+      MONGODB_CONNECTION_STRING: mongodb://ticketeer:ticketeer@mongodb:27017/ticketeer
+      MONGODB_COLLECTION_NAME: ticketeer
+
+  ticketeer-frontend:
+    build: ./frontend
+    init: true
+    ports:
+      - 8080:8080
+    environment:
+      BACKEND_HOSTNAME: localhost
+      BACKEND_PORT: 8081

@@ -1,0 +1,10 @@
+.git
+cypress
+node_modules
+.eslintignore
+.eslintrc.json
+.gitignore
+.mocharc.json
+.npmignore
+backendMockData.json
+cypress.json

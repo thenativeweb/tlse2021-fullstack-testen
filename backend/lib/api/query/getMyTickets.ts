@@ -19,6 +19,8 @@ const getMyTicketsRoute = {
     return async (req, res): Promise<void> => {
       try {
         // TODO: implement route
+
+        res.status(200).json([]);
       } catch (ex: unknown) {
         const error = isCustomError(ex) ? ex : new errors.InternalServerError({ cause: ex });
 

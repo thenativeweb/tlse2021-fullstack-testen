@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -28,6 +29,7 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: path.join(__dirname, 'src', 'index.html'),
       filename: 'index.html'
-    })
+    }),
+    new webpack.EnvironmentPlugin([ 'BACKEND_HOSTNAME', 'BACKEND_PORT' ])
   ]
 };
