@@ -6,11 +6,14 @@ import { getApi } from '../api/getApi';
 import http from 'http';
 import { prefillDatabaseWithTickets } from '../domain/prefillDatabaseWithTickets';
 import { processenv } from 'processenv';
+import { registerExceptionHandler } from '../registerExceptionHandler';
 
 const logger = flaschenpost.getLogger();
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async (): Promise<void> => {
+  registerExceptionHandler();
+
   const mongoDbConnectionString = processenv(
     'MONGODB_CONNECTION_STRING',
     'mongodb://ticketeer:ticketeer@mongodb:27017/ticketeer'
