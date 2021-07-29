@@ -1,12 +1,12 @@
 import { Area } from '../../../../lib/domain/types/Area';
 import { assert } from 'assertthat';
 import { connectionOptions } from '../../../shared/containers/connectionOptions';
-import crypto from 'crypto';
 import { Database } from '../../../../lib/storage/Database';
 import Express from 'express';
 import { getApi } from '../../../../lib/api/getApi';
 import { runApiAsServer } from '../../../shared/runApiAsServer';
 import { Ticket } from '../../../../lib/domain/types/Ticket';
+import { v4 } from 'uuid';
 
 suite('buyTickets', (): void => {
   let api: Express.Application,
@@ -15,7 +15,7 @@ suite('buyTickets', (): void => {
   setup(async (): Promise<void> => {
     database = await Database.create({
       connectionString: connectionOptions.mongoDb.connectionString,
-      collectionName: `test-${crypto.randomInt(50_000)}`
+      collectionName: `test-${Math.floor(Math.random() * 50_000)}`
     });
     api = getApi({ database });
   });
@@ -63,8 +63,8 @@ suite('buyTickets', (): void => {
     const { client } = await runApiAsServer({ api });
 
     const tickets: Ticket[] = [
-      { id: crypto.randomUUID(), area: Area.front, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.front, isAvailable: true }
+      { id: v4(), area: Area.front, isAvailable: true },
+      { id: v4(), area: Area.front, isAvailable: true }
     ];
 
     for (const ticket of tickets) {

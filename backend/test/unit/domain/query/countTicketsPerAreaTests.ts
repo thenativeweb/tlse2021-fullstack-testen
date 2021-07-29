@@ -1,8 +1,8 @@
 import { Area } from '../../../../lib/domain/types/Area';
 import { assert } from 'assertthat';
 import { countTicketsPerArea } from '../../../../lib/domain/query/countTicketsPerArea';
-import crypto from 'crypto';
 import { Ticket } from '../../../../lib/domain/types/Ticket';
+import { v4 } from 'uuid';
 
 suite('countTicketsPerArea', (): void => {
   test('returns all zeros if no tickets are given.', async (): Promise<void> => {
@@ -19,11 +19,11 @@ suite('countTicketsPerArea', (): void => {
 
   test('counts the tickets per area.', async (): Promise<void> => {
     const tickets: Ticket[] = [
-      { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.front, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.center, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.front, isAvailable: true }
+      { id: v4(), area: Area.back, isAvailable: true },
+      { id: v4(), area: Area.front, isAvailable: true },
+      { id: v4(), area: Area.center, isAvailable: true },
+      { id: v4(), area: Area.back, isAvailable: true },
+      { id: v4(), area: Area.front, isAvailable: true }
     ];
 
     const ticketCountsPerArea = countTicketsPerArea({ tickets });

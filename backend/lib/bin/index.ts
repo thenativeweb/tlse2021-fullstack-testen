@@ -12,6 +12,7 @@ const logger = flaschenpost.getLogger();
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async (): Promise<void> => {
+  logger.info('Starting ticketeer backend...');
   registerExceptionHandler();
 
   const mongoDbConnectionString = processenv(

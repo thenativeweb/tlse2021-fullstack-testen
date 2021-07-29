@@ -2,16 +2,16 @@ import { flaschenpost } from 'flaschenpost';
 
 const logger = flaschenpost.getLogger();
 
-const handleUncaughtException = function (): void {
-  logger.fatal('Unexpected exception occured.');
+const handleUncaughtException = function (error: Error): void {
+  logger.fatal('Unexpected exception occured.', { error });
 
   /* eslint-disable unicorn/no-process-exit */
   process.exit(1);
   /* eslint-enable unicorn/no-process-exit */
 };
 
-const handleUnhandledRejection = function (): void {
-  logger.fatal('Unexpected exception occured.');
+const handleUnhandledRejection = function (reason: any): void {
+  logger.fatal('Unexpected exception occured.', { reason });
 
   /* eslint-disable unicorn/no-process-exit */
   process.exit(1);

@@ -1,9 +1,9 @@
 import { Area } from '../../../lib/domain/types/Area';
 import { assert } from 'assertthat';
 import { connectionOptions } from '../../shared/containers/connectionOptions';
-import crypto from 'crypto';
 import { Database } from '../../../lib/storage/Database';
 import { Ticket } from '../../../lib/domain/types/Ticket';
+import { v4 } from 'uuid';
 
 suite('Database', (): void => {
   let database: Database;
@@ -11,7 +11,7 @@ suite('Database', (): void => {
   setup(async (): Promise<void> => {
     database = await Database.create({
       connectionString: connectionOptions.mongoDb.connectionString,
-      collectionName: `test-${crypto.randomInt(50_000)}`
+      collectionName: `test-${Math.floor(Math.random() * 50_000)}`
     });
   });
 
@@ -25,7 +25,7 @@ suite('Database', (): void => {
 
   suite('addTicket', (): void => {
     test('adds a ticket to the database.', async (): Promise<void> => {
-      const ticket: Ticket = { id: crypto.randomUUID(), area: Area.center, isAvailable: true };
+      const ticket: Ticket = { id: v4(), area: Area.center, isAvailable: true };
 
       const addTicketResult = await database.addTicket({ ticket });
 
@@ -39,7 +39,7 @@ suite('Database', (): void => {
     });
 
     test('fails if a ticket id is already in use.', async (): Promise<void> => {
-      const ticket: Ticket = { id: crypto.randomUUID(), area: Area.center, isAvailable: true };
+      const ticket: Ticket = { id: v4(), area: Area.center, isAvailable: true };
 
       await database.addTicket({ ticket });
 
@@ -54,7 +54,7 @@ suite('Database', (): void => {
       const markTicketsOwnedResult = await database.markTicketsOwned({
         owner: 'foobar',
         tickets: [
-          { id: crypto.randomUUID(), area: Area.front, isAvailable: true }
+          { id: v4(), area: Area.front, isAvailable: true }
         ]
       });
 
@@ -63,7 +63,7 @@ suite('Database', (): void => {
 
     test('fails if one of the tickets is not available.', async (): Promise<void> => {
       const tickets: Ticket[] = [
-        { id: crypto.randomUUID(), area: Area.front, isAvailable: false, owner: 'notme' }
+        { id: v4(), area: Area.front, isAvailable: false, owner: 'notme' }
       ];
 
       (await database.addTicket({ ticket: tickets[0] })).unwrapOrThrow();
@@ -80,15 +80,15 @@ suite('Database', (): void => {
 
     test('marks all tickets owned and sets their owner.', async (): Promise<void> => {
       const tickets: Ticket[] = [
-        { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
-        { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
-        { id: crypto.randomUUID(), area: Area.back, isAvailable: false },
-        { id: crypto.randomUUID(), area: Area.center, isAvailable: true },
-        { id: crypto.randomUUID(), area: Area.center, isAvailable: false },
-        { id: crypto.randomUUID(), area: Area.center, isAvailable: false },
-        { id: crypto.randomUUID(), area: Area.front, isAvailable: true },
-        { id: crypto.randomUUID(), area: Area.front, isAvailable: true },
-        { id: crypto.randomUUID(), area: Area.front, isAvailable: true }
+        { id: v4(), area: Area.back, isAvailable: true },
+        { id: v4(), area: Area.back, isAvailable: true },
+        { id: v4(), area: Area.back, isAvailable: false },
+        { id: v4(), area: Area.center, isAvailable: true },
+        { id: v4(), area: Area.center, isAvailable: false },
+        { id: v4(), area: Area.center, isAvailable: false },
+        { id: v4(), area: Area.front, isAvailable: true },
+        { id: v4(), area: Area.front, isAvailable: true },
+        { id: v4(), area: Area.front, isAvailable: true }
       ];
 
       for (const ticket of tickets) {

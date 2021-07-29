@@ -1,8 +1,8 @@
 import { Application } from 'express';
-import crypto from 'crypto';
 import http from 'http';
 import os from 'os';
 import path from 'path';
+import { v4 } from 'uuid';
 import axios, { AxiosInstance } from 'axios';
 
 const runApiAsServer = async function ({ api }: {
@@ -10,7 +10,7 @@ const runApiAsServer = async function ({ api }: {
 }): Promise<{ client: AxiosInstance; socket: string }> {
   const server = http.createServer(api);
 
-  const socket = path.join(os.tmpdir(), `${crypto.randomUUID()}.socket`);
+  const socket = path.join(os.tmpdir(), `${v4()}.socket`);
 
   await new Promise<void>((resolve, reject): void => {
     server.listen(socket, (): void => {

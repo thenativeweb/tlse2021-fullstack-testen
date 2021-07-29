@@ -1,6 +1,6 @@
 import { Area } from './types/Area';
-import crypto from 'crypto';
 import { Database } from '../storage/Database';
+import { v4 } from 'uuid';
 
 const prefillDatabaseWithTickets = async function ({ database }: {
   database: Database;
@@ -9,7 +9,7 @@ const prefillDatabaseWithTickets = async function ({ database }: {
     for (let i = 0; i < 20; i++) {
       await database.addTicket({
         ticket: {
-          id: crypto.randomUUID(),
+          id: v4(),
           area,
           isAvailable: true
         }

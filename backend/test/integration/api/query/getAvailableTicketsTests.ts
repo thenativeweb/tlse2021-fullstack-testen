@@ -1,12 +1,12 @@
 import { Area } from '../../../../lib/domain/types/Area';
 import { assert } from 'assertthat';
 import { connectionOptions } from '../../../shared/containers/connectionOptions';
-import crypto from 'crypto';
 import { Database } from '../../../../lib/storage/Database';
 import Express from 'express';
 import { getApi } from '../../../../lib/api/getApi';
 import { runApiAsServer } from '../../../shared/runApiAsServer';
 import { Ticket } from '../../../../lib/domain/types/Ticket';
+import { v4 } from 'uuid';
 
 suite('getAvailableTickets', (): void => {
   let api: Express.Application,
@@ -15,7 +15,7 @@ suite('getAvailableTickets', (): void => {
   setup(async (): Promise<void> => {
     database = await Database.create({
       connectionString: connectionOptions.mongoDb.connectionString,
-      collectionName: `test-${crypto.randomInt(50_000)}`
+      collectionName: `test-${Math.floor(Math.random() * 50_000)}`
     });
     api = getApi({ database });
   });
@@ -43,15 +43,15 @@ suite('getAvailableTickets', (): void => {
     const { client } = await runApiAsServer({ api });
 
     const tickets: Ticket[] = [
-      { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.back, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.back, isAvailable: false },
-      { id: crypto.randomUUID(), area: Area.center, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.center, isAvailable: false },
-      { id: crypto.randomUUID(), area: Area.center, isAvailable: false },
-      { id: crypto.randomUUID(), area: Area.front, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.front, isAvailable: true },
-      { id: crypto.randomUUID(), area: Area.front, isAvailable: true }
+      { id: v4(), area: Area.back, isAvailable: true },
+      { id: v4(), area: Area.back, isAvailable: true },
+      { id: v4(), area: Area.back, isAvailable: false },
+      { id: v4(), area: Area.center, isAvailable: true },
+      { id: v4(), area: Area.center, isAvailable: false },
+      { id: v4(), area: Area.center, isAvailable: false },
+      { id: v4(), area: Area.front, isAvailable: true },
+      { id: v4(), area: Area.front, isAvailable: true },
+      { id: v4(), area: Area.front, isAvailable: true }
     ];
 
     for (const ticket of tickets) {
