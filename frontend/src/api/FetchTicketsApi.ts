@@ -7,7 +7,7 @@ const createFetchTicketsApi = (host: string): TicketsApi => ({
     const response = await fetch(`${host}/command/buyTickets`, {
       method: 'POST',
       headers: {
-        'content-type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         userName,
