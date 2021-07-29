@@ -1,0 +1,26 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "description": "E2E Tests für die Ticketeer Applikation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run cypress:run",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "dependencies": {
+    "@testing-library/cypress": "8.0.0",
+    "cypress": "8.0.0"
+  },
+  "contributors": [
+    {
+      "name": "Hannes Leutloff",
+      "email": "hannes.leutloff@thenativeweb.io"
+    },
+    {
+      "name": "David Losert",
+      "email": "david@david-losert.com"
+    }
+  ],
+  "license": "MIT"
+}

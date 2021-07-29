@@ -1,7 +1,7 @@
 {
   "name": "ticketeer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend für die Ticketeer Applikation.",
   "bin": "build/bin/index.js",
   "dependencies": {
     "cors": "2.8.5",
@@ -28,7 +28,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "contributors": [
+    {
+      "name": "Hannes Leutloff",
+      "email": "hannes.leutloff@thenativeweb.io"
+    },
+    {
+      "name": "David Losert",
+      "email": "david@david-losert.com"
+    }
+  ],
   "license": "MIT"
 }
