@@ -1,10 +1,10 @@
-# ticketeer
+# ticketeer Backend
 
-The code repo for the full stack testing webinar.
+Dies ist das Backend der ticketeer Anwendung.
 
-## Running quality assurance
+## Ausführen der Qualitätskontrolle
 
-To run quality assurance for this module use [roboter](https://www.npmjs.com/package/roboter):
+Um die Qualitätskontrolle - und damit unter anderem die Tests - auszuführen, benutze [roboter](https://www.npmjs.com/package/roboter):
 
 ```shell
 $ npx roboter
