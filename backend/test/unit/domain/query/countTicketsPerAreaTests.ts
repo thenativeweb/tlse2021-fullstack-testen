@@ -1,8 +1,8 @@
 import { Area } from '../../../../lib/domain/types/Area';
 import { assert } from 'assertthat';
 import { countTicketsPerArea } from '../../../../lib/domain/query/countTicketsPerArea';
+import { createTicket } from 'test/shared/fixtures/createTicket';
 import { Ticket } from '../../../../lib/domain/types/Ticket';
-import { v4 } from 'uuid';
 
 suite('countTicketsPerArea', (): void => {
   test('returns all zeros if no tickets are given.', async (): Promise<void> => {
@@ -19,11 +19,11 @@ suite('countTicketsPerArea', (): void => {
 
   test('counts the tickets per area.', async (): Promise<void> => {
     const tickets: Ticket[] = [
-      { id: v4(), area: Area.back, isAvailable: true },
-      { id: v4(), area: Area.front, isAvailable: true },
-      { id: v4(), area: Area.center, isAvailable: true },
-      { id: v4(), area: Area.back, isAvailable: true },
-      { id: v4(), area: Area.front, isAvailable: true }
+      createTicket({ area: Area.back }),
+      createTicket({ area: Area.front }),
+      createTicket({ area: Area.center }),
+      createTicket({ area: Area.back }),
+      createTicket({ area: Area.front })
     ];
 
     const ticketCountsPerArea = countTicketsPerArea({ tickets });

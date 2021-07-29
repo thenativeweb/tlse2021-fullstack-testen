@@ -1,9 +1,9 @@
 import { Area } from '../../../../lib/domain/types/Area';
 import { assert } from 'assertthat';
+import { createTicket } from 'test/shared/fixtures/createTicket';
 import { getTicketsThatFulfilRequest } from '../../../../lib/domain/query/getTicketsThatFulfilRequest';
 import { Ticket } from '../../../../lib/domain/types/Ticket';
 import { TicketCountsPerArea } from '../../../../lib/domain/types/TicketCountsPerArea';
-import { v4 } from 'uuid';
 
 suite('getTicketsThatFulfilRequest', (): void => {
   test('returns an empty array if no tickets are requested and no tickets are available.', async (): Promise<void> => {
@@ -42,10 +42,10 @@ suite('getTicketsThatFulfilRequest', (): void => {
 
   test('returns an array of individual tickets that fulfills the buy request.', async (): Promise<void> => {
     const availableTickets: Ticket[] = [
-      { id: v4(), area: Area.back, isAvailable: true },
-      { id: v4(), area: Area.center, isAvailable: true },
-      { id: v4(), area: Area.front, isAvailable: true },
-      { id: v4(), area: Area.front, isAvailable: true }
+      createTicket({ area: Area.back, isAvailable: true }),
+      createTicket({ area: Area.center, isAvailable: true }),
+      createTicket({ area: Area.front, isAvailable: true }),
+      createTicket({ area: Area.front, isAvailable: true })
     ];
     const requestedTicketCountsPerArea: TicketCountsPerArea = {
       front: 2,
@@ -72,10 +72,10 @@ suite('getTicketsThatFulfilRequest', (): void => {
 
   test('does not verify wether a ticket is available.', async (): Promise<void> => {
     const availableTickets: Ticket[] = [
-      { id: v4(), area: Area.back, isAvailable: false },
-      { id: v4(), area: Area.center, isAvailable: false },
-      { id: v4(), area: Area.front, isAvailable: false },
-      { id: v4(), area: Area.front, isAvailable: false }
+      createTicket({ area: Area.back, isAvailable: false }),
+      createTicket({ area: Area.center, isAvailable: false }),
+      createTicket({ area: Area.front, isAvailable: false }),
+      createTicket({ area: Area.front, isAvailable: false })
     ];
     const requestedTicketCountsPerArea: TicketCountsPerArea = {
       front: 2,
