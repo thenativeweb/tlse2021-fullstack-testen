@@ -3,6 +3,7 @@ import cors from 'cors';
 import { Database } from '../storage/Database';
 import express from 'express';
 import { getAvailableTicketsRoute } from './query/getAvailableTickets';
+import { getMiddleware as getLoggingMiddleware } from 'flaschenpost';
 import { getMyTicketsRoute } from './query/getMyTickets';
 
 const getApi = function ({ database }: {
@@ -12,6 +13,7 @@ const getApi = function ({ database }: {
 
   app.use(express.json());
   app.use(cors());
+  app.use(getLoggingMiddleware());
 
   app.get(
     `/query/${getAvailableTicketsRoute.path}`,

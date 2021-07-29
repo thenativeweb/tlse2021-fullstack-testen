@@ -17,6 +17,7 @@ services:
   ticketeer-backend:
     build: ./backend
     init: true
+    restart: always
     ports:
       - 8081:8081
     environment:
