@@ -1,7 +1,7 @@
 import { BuyTicketsContainer } from './BuyTickets/BuyTicketsContainer';
 import { MyTicketsContainer } from './MyTickets/MyTicketsContainer';
 import { ReactElement } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 
 const App = (): ReactElement => (
   <Container>
@@ -12,17 +12,21 @@ const App = (): ReactElement => (
         </h1>
       </Col>
     </Row>
+
     <Row>
       <Col>
-        <h2>Meine gekauften Tickets:</h2>
-        <MyTicketsContainer />
+        <Tabs defaultActiveKey='mytickets' transition={ false } unmountOnExit={ true } mountOnEnter={ true }>
+          <Tab eventKey='mytickets' title='Meine Tickets'>
+            <MyTicketsContainer />
+          </Tab>
+          <Tab eventKey='buytickets' title='Tickets kaufen'>
+            <BuyTicketsContainer />
+          </Tab>
+        </Tabs>
       </Col>
     </Row>
     <Row>
-      <Col>
-        <h2>Verfügbare Tickets:</h2>
-        <BuyTicketsContainer />
-      </Col>
+      <Col />
     </Row>
   </Container>
 );
