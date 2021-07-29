@@ -20,3 +20,4 @@ Das frontend ist dann erreichbar unter `http://localhost:8080`.
 
 - Das Backend hat eine [eigene kurze Readme](./backend/README.md) mit einer Anleitung zum Ausführen der Tests.
 - Das Frontend hat hat ebenfalls eine [eigene Readme](./frontend/README.md), welche das Ausführen der im Frontend etwas komplexeren Tests beschreibt.
+- Die Ausführung der E2E Tests ist [in dieser Readme](./e2e/readme.md) beschrieben.
