@@ -4,6 +4,7 @@ import { Database } from '../storage/Database';
 import { flaschenpost } from 'flaschenpost';
 import { getApi } from '../api/getApi';
 import http from 'http';
+import { prefillDatabaseWithTickets } from '../domain/prefillDatabaseWithTickets';
 import { processenv } from 'processenv';
 
 const logger = flaschenpost.getLogger();
@@ -27,6 +28,9 @@ const logger = flaschenpost.getLogger();
     connectionString: mongoDbConnectionString,
     collectionName: mongoDbCollectionName
   });
+
+  await prefillDatabaseWithTickets({ database });
+
   const api = getApi({ database });
   const server = http.createServer(api);
 
