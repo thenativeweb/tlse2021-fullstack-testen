@@ -1,11 +1,18 @@
 import { TicketCount } from '../types/TicketCount';
 import { TicketsApi } from './TicketsApi';
 
+const userName = 'testuser';
 const createFetchTicketsApi = (host: string): TicketsApi => ({
   async buyTickets (tickets: TicketCount): Promise<void> {
-    const response = await fetch(`${host}/buyTickets`, {
+    const response = await fetch(`${host}/command/buyTickets`, {
       method: 'POST',
-      body: JSON.stringify(tickets)
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        userName,
+        requestedTicketCountsPerArea: tickets
+      })
     });
 
     if (!response.ok) {
@@ -13,12 +20,12 @@ const createFetchTicketsApi = (host: string): TicketsApi => ({
     }
   },
   async getAvailableTickets (): Promise<TicketCount> {
-    const response = await fetch(`${host}/getAvailableTickets`);
+    const response = await fetch(`${host}/query/getAvailableTickets`);
 
     return await response.json();
   },
   async getMyTickets (): Promise<TicketCount> {
-    const response = await fetch(`${host}/getMyTickets`);
+    const response = await fetch(`${host}/query/getMyTickets/${userName}`);
 
     return await response.json();
   }
