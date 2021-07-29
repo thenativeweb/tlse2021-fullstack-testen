@@ -1,17 +1,13 @@
 import { Database } from '../../storage/Database';
 import express from 'express';
-import { getTicketSchema } from '../../domain/types/Ticket';
+import { getTicketCountsPerAreaSchema } from '../../domain/types/TicketCountsPerArea';
 import { isCustomError } from 'defekt';
-import { JsonSchema } from 'validate-value';
 import * as errors from '../../errors';
 
 const getMyTicketsRoute = {
   path: 'getMyTickets/:userName',
   response: {
-    body: {
-      type: 'array',
-      items: getTicketSchema()
-    } as JsonSchema
+    body: getTicketCountsPerAreaSchema()
   },
   getHandler ({ database }: {
     database: Database;
@@ -20,7 +16,7 @@ const getMyTicketsRoute = {
       try {
         // TODO: implement route
 
-        res.status(200).json([]);
+        res.status(200).json({});
       } catch (ex: unknown) {
         const error = isCustomError(ex) ? ex : new errors.InternalServerError({ cause: ex });
 
