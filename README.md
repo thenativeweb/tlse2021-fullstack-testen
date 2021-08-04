@@ -1,4 +1,4 @@
-# Tech:Lounge Summer Edition - Fullstack-Testen - von der Unit bis zur UI
+# tech:lounge Summer Edition - Fullstack-Testen – von der Unit bis zur UI
 
 Dieses repository enthält den Beispielcode für das Webinar zum Thema Fullstack-Testen.
 
