@@ -23,7 +23,7 @@
     "common-tags": "1.8.0",
     "retry-ignore-abort": "2.2.26",
     "roboter": "11.7.8",
-    "shelljs": "0.8.4"
+    "shelljs": "0.8.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
