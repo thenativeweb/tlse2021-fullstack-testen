@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@testing-library/cypress": "8.0.0",
-    "cypress": "8.0.0"
+    "cypress": "16.0.0"
   },
   "contributors": [
     {
